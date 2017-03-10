@@ -17,7 +17,9 @@ fi
 echo "File found in $(dirname $location)"
 read -p "Type \"show\" to show .h and .cxx files, or \"go\" to cd into directory: " answer
 case $answer in
-  show ) vim -O $(dirname $location)\/${filename}.{h,cxx} ;; #Open both files with vertical split in vim
+  show ) echo -e "\033]0;${filename}\007" #Set title of tab to filename
+         vim -O $(dirname $location)\/${filename}.{h,cxx} #Open both files with vertical split in vim
+         echo -e "\033]0;Terminal\007" ;; #After exiting, shell returns to previous directory, so tab name is reset
   go ) cd $(dirname $location)\/ ;;
   #* ) echo "`basename $0` :usage SEARCHALI [filename without extension]" ;;
   * ) echo "Invalid option." ;;
