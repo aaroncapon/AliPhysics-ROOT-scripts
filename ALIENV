@@ -1,0 +1,13 @@
+#!/bin/bash
+#Script to enter the AliPhysics environment whilst remaining in the current directory
+#The following two lines need to be added to alienv (after line 227, before exec command in the "enter" option in the case statement of variable $ACTION)
+# TEMPVARIABLE=$(head -n 1 <location of text file storing path>)
+# cd ${TEMPVARIABLE}
+
+#Set location of file to store path to current directory
+currentDirectory=${HOME}/alice/.whereIwantToBe.txt
+aliInstall=${HOME}/alice/
+
+echo ${PWD} > ${currentDirectory}
+cd ${aliInstall}
+alienv enter AliPhysics/latest-ali-master
