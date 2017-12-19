@@ -9,6 +9,7 @@ struct analysisCuts16q{
 	const Float_t minEsigTPC = -1.5;
 	const Float_t maxEsigTPC = 4;
 	const Float_t minPsigTPC = 3.5;
+	const Float_t minEsigTOF = -3;
 	const Float_t maxEsigTOF = 3;
 
 
@@ -28,7 +29,7 @@ struct analysisCuts16q{
 
 
 	//--------- Pair cuts --------------------//
-	const Float_t minInvMassPhiVcut = 0.02; //Exclude smaller than
+	const Float_t minPhiVmassCut = 0.02; //Exclude smaller than
 	const Float_t maxPhiV = (3/4.)*TMath::Pi(); //Exclude greater than
 
 	//Float_t minOpAngle = 0.05; //Exclude smaller than
