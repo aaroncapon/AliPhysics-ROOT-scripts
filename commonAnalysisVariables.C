@@ -37,5 +37,6 @@ struct analysisCuts16q{
 	//Float_t minInvMassPrefilter = 0.05;
 	//Float_t minOpAnglePrefilter = 0.05;
 
-	//Float_t maxPhiVprefilter = 2.5;
+	const Float_t minPhiVmassCutPre = 0.02; //Exclude smaller than
+	const Float_t maxPhiVPre = (3/4.)*TMath::Pi(); //Exclude greater than
 };

@@ -43,11 +43,69 @@ void formatRatioPlot(TH1* hist, TString yAxis){
     return;
 }
 
-TH1F* calcDiElecRfactor(const TH1F* posHist, const TH1F* negHist, const TH1F* unlikeHist, Bool_t calcRfactor){
+TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike, Bool_t calcRfactor, Float_t minPt = 0, Float_t maxPt = 10, Float_t minCent = 0, Float_t maxCent = 100){
+
+	Int_t minPtBin   = hPos->GetYaxis()->FindBin(minPt);
+	Int_t maxPtBin   = hPos->GetYaxis()->FindBin(maxPt);
+	Int_t minCentBin = hPos->GetZaxis()->FindBin(minCent);
+	Int_t maxCentBin = hPos->GetZaxis()->FindBin(maxCent);
 
 	//Clone used to make sure binning is identical.
-	TH1F* rFactor = (TH1F*)(unlikeHist->Clone("rFactor"));
-	TH1F* denominator = (TH1F*)(negHist->Clone("denominator"));
+	TH1F* rFactor     = (TH1F*)(hUnlike->ProjectionX("", minPtBin, maxPtBin, minCentBin, maxCentBin, "e"));
+	TH1F* denominator = (TH1F*)(hNeg->ProjectionX("",    minPtBin, maxPtBin, minCentBin, maxCentBin, "e"));
+	TH1F* tempHist    = (TH1F*)(hPos->ProjectionX("",    minPtBin, maxPtBin, minCentBin, maxCentBin, "e"));
+
+	if(!rFactor){
+		Printf("R factor plot not cloned (in calcDiElecRfactor)");
+		return 0x0;
+	}
+	if(!denominator || !tempHist){
+		Printf("Pos or Neg projection for Rfac not created (calcDiElecRfactor)");
+		return 0x0;
+	}
+
+	//Dummy R factor
+	if(calcRfactor == kFALSE){
+		rFactor->Reset(); //clear contents.
+		for(Int_t i = 1; i <= rFactor->GetNbinsX(); i++){
+			rFactor->SetBinContent(i, 1);
+			rFactor->SetBinError(i, 0.001);
+		}
+	}
+	//Real R factor
+	else{
+		Float_t valuePos, valueNeg;
+		Float_t errorPos, errorNeg;
+		for(Int_t i = 0; i <= hPos->GetNbinsX(); i++){
+
+			valuePos = hPos->GetBinContent(i);
+			valueNeg = hNeg->GetBinContent(i);
+
+			errorPos = hPos->GetBinError(i);
+			errorNeg = hNeg->GetBinError(i);
+
+			denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
+			denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
+			if(valuePos == 0 && valueNeg == 0){
+				Printf("A bin was empty in R fac calc. Using 1. Increase statistics!!");
+				denominator->SetBinContent(i, 1);
+			}
+		}
+		rFactor->Divide(denominator);
+	}
+
+	delete denominator;
+	delete tempHist;
+
+  return rFactor;
+}
+
+//R factor calculation with 1D histograms
+TH1F* calcDiElecRfactor(const TH1F* hPos, const TH1F* hNeg, const TH1F* hUnlike, Bool_t calcRfactor){
+
+	//Clone used to make sure binning is identical.
+	TH1F* rFactor = (TH1F*)(hUnlike->Clone("rFactor"));
+	TH1F* denominator = (TH1F*)(hNeg->Clone("denominator"));
 	if(!rFactor){
 		Printf("R factor plot not cloned (in calcDiElecRfactor)");
 		return 0x0;
@@ -69,13 +127,13 @@ TH1F* calcDiElecRfactor(const TH1F* posHist, const TH1F* negHist, const TH1F* un
 	else{
 		Float_t valuePos, valueNeg;
 		Float_t errorPos, errorNeg;
-		for(Int_t i = 0; i <= posHist->GetNbinsX(); i++){
+		for(Int_t i = 0; i <= hPos->GetNbinsX(); i++){
 
-			valuePos = posHist->GetBinContent(i);
-			valueNeg = negHist->GetBinContent(i);
+			valuePos = hPos->GetBinContent(i);
+			valueNeg = hNeg->GetBinContent(i);
 
-			errorPos = posHist->GetBinError(i);
-			errorNeg = negHist->GetBinError(i);
+			errorPos = hPos->GetBinError(i);
+			errorNeg = hNeg->GetBinError(i);
 
 			denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
 			denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
@@ -91,21 +149,22 @@ TH1F* calcDiElecRfactor(const TH1F* posHist, const TH1F* negHist, const TH1F* un
   return rFactor;
 }
 
+
 //Calculate geomtric mean of like sign spectra for background calculation
-TH1F* calcDiElecBackgr(const TH1F* posHist, const TH1F* negHist){
+TH1F* calcDiElecBackgr(const TH1F* hPos, const TH1F* hNeg){
 
     //Use geometric mean of like signs to calculate background
-    TH1F* backgr = dynamic_cast<TH1F*>(posHist->Clone("backgr"));
+    TH1F* backgr = (TH1F*)hPos->Clone("backgr");
     backgr->Reset();
 
     Float_t valuePos, valueNeg;
     Float_t errorPos, errorNeg;
-    for(Int_t i = 0; i <= posHist->GetNbinsX(); i++){
+    for(Int_t i = 0; i <= hPos->GetNbinsX(); i++){
 
-        valuePos = posHist->GetBinContent(i);
-        valueNeg = negHist->GetBinContent(i);
-        errorPos = posHist->GetBinError(i);
-        errorNeg = negHist->GetBinError(i);
+        valuePos = hPos->GetBinContent(i);
+        valueNeg = hNeg->GetBinContent(i);
+        errorPos = hPos->GetBinError(i);
+        errorNeg = hNeg->GetBinError(i);
         backgr->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
         backgr->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
     }
@@ -114,9 +173,9 @@ TH1F* calcDiElecBackgr(const TH1F* posHist, const TH1F* negHist){
 
 TH1F* calcRawDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFactor){
 
-	TH1F* rawSpectrum = dynamic_cast<TH1F*>(unlike->Clone("rawSpectrum"));
+	TH1F* rawSpectrum = (TH1F*)unlike->Clone("rawSpectrum");
 
-	TH1F* correctedBackgr = dynamic_cast<TH1F*>(backgr->Clone("correctedBackgr"));
+	TH1F* correctedBackgr = (TH1F*)backgr->Clone("correctedBackgr");
 	correctedBackgr->Multiply(rFactor);
 
 	rawSpectrum->Add(correctedBackgr, -1);
@@ -124,15 +183,15 @@ TH1F* calcRawDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* 
 	return rawSpectrum;
 }
 
-TH1F* calcDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFactor, TH1D* effCor = 0x0){
+TH1F* calcDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFactor, TH1F* effCor = 0x0){
 
 	Double_t intLuminosity = 1;
 
 	//TODO: use vert. reconstruction and trigger efficiency
 
-	TH1F* rawSpectrum = dynamic_cast<TH1F*>(unlike->Clone("rawSpectrum"));
+	TH1F* rawSpectrum = (TH1F*)unlike->Clone("rawSpectrum");
 
-	TH1F* correctedBackgr = dynamic_cast<TH1F*>(backgr->Clone("correctedBackgr"));
+	TH1F* correctedBackgr = (TH1F*)backgr->Clone("correctedBackgr");
 	correctedBackgr->Multiply(rFactor);
 
 	rawSpectrum->Add(correctedBackgr, -1);
@@ -148,7 +207,7 @@ TH1F* calcDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFa
 //Calculate significance, as per dielectron analysis definiton
 TH1F* calcDiElecSignificance(const TH1F* signal, const TH1F* backgr){
 
-    TH1F* significance = dynamic_cast<TH1F*>(signal->Clone("significance"));
+    TH1F* significance = (TH1F*)signal->Clone("significance");
 
     Float_t errorSignal, errorBackgr;
     Float_t valueSignal, valueBackgr;
@@ -216,7 +275,7 @@ TLatex* getTexSystem(Float_t xPos, Float_t yPos, Bool_t isMC = kFALSE, Float_t t
 }
 TLatex* getTexKinematics(Float_t xPos, Float_t yPos, Float_t textSize = 0.02){
 
-    TLatex* tex = new TLatex(xPos, yPos, "0.2 < p_{T} < 5 GeV/#it{c}, |#eta| < 0.8");
+    TLatex* tex = new TLatex(xPos, yPos, "0.2 < p_{T} < 10 GeV/#it{c}, |#eta| < 0.8");
     tex->SetNDC();
     tex->SetTextSize(textSize);
     tex->SetTextFont(42);
