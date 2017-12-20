@@ -46,8 +46,16 @@ void formatRatioPlot(TH1* hist, TString yAxis){
 TH1F* calcDiElecRfactor(const TH1F* posHist, const TH1F* negHist, const TH1F* unlikeHist, Bool_t calcRfactor){
 
 	//Clone used to make sure binning is identical.
-	TH1F* rFactor = dynamic_cast<TH1F*>(unlikeHist->Clone("rFactor"));
-	TH1F* denominator = dynamic_cast<TH1F*>(negHist->Clone("denominator"));
+	TH1F* rFactor = (TH1F*)(unlikeHist->Clone("rFactor"));
+	TH1F* denominator = (TH1F*)(negHist->Clone("denominator"));
+	if(!rFactor){
+		Printf("R factor plot not cloned (in calcDiElecRfactor)");
+		return 0x0;
+	}
+	if(!denominator){
+		Printf("Denominator for Rfac no created (calcDiElecRfactor)");
+		return 0x0;
+	}
 
 	//Dummy R factor
 	if(calcRfactor == kFALSE){
@@ -71,6 +79,9 @@ TH1F* calcDiElecRfactor(const TH1F* posHist, const TH1F* negHist, const TH1F* un
 
 			denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
 			denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
+			if(valuePos == 0 && valueNeg == 0){
+				denominator->SetBinContent(i, 1);
+			}
 		}
 		rFactor->Divide(denominator);
 	}
