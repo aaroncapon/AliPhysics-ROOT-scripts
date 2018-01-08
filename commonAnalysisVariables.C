@@ -17,9 +17,9 @@ struct analysisCuts16q{
 	const Float_t maxEsigTPC_cent = 4;
 	const Float_t minPsigTPC_cent = 3.5;
 	//fast speicific PID cuts
-	const Float_t minEsigTPC_cent = -3;
-	const Float_t maxEsigTPC_cent = 3;
-	const Float_t minPsigTPC_cent = 4;
+	const Float_t minEsigTPC_fast = -3;
+	const Float_t maxEsigTPC_fast = 3;
+	const Float_t minPsigTPC_fast = 4;
 
 
 	//--------- Track cuts --------------------//
