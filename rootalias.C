@@ -275,7 +275,7 @@ TLatex* getTexSystem(Float_t xPos, Float_t yPos, Bool_t isMC = kFALSE, Float_t t
 }
 TLatex* getTexKinematics(Float_t xPos, Float_t yPos, Float_t textSize = 0.02){
 
-    TLatex* tex = new TLatex(xPos, yPos, "0.2 < p_{T} < 10 GeV/#it{c}, |#eta| < 0.8");
+    TLatex* tex = new TLatex(xPos, yPos, "0.2 < #it{p}_{T} < 10 GeV/#it{c}, |#eta| < 0.8");
     tex->SetNDC();
     tex->SetTextSize(textSize);
     tex->SetTextFont(42);
@@ -284,7 +284,7 @@ TLatex* getTexKinematics(Float_t xPos, Float_t yPos, Float_t textSize = 0.02){
 }
 TLatex* getTexPairMom(Float_t xPos, Float_t yPos, Float_t textSize = 0.02, TString maxPt = "10", TString minPt = "0"){
 
-	TString mid = "p_{T}^{pair} < ";
+	TString mid = "#it{p}_{T}^{pair} < ";
 	TString units = " GeV/#it{c}";
 	TLatex* tex = 0x0;
 	if(minPt == "0"){
@@ -303,7 +303,7 @@ TLatex* getTexPairMom(Float_t xPos, Float_t yPos, Float_t textSize = 0.02, TStri
 }
 TLatex* getTexPairCuts(Float_t xPos, Float_t yPos, Float_t textSize = 0.02){
 
-    TLatex* tex = new TLatex(xPos, yPos, "#Phi_{V}^{pair} < #frac{3}{4}#pi for m_{ee} < 0.02 GeV/#it{c}^{2}");
+    TLatex* tex = new TLatex(xPos, yPos, "#varphi_{V}^{pair} < #frac{3}{4}#pi for #it{m}_{ee} < 0.02 GeV/#it{c}^{2}");
     tex->SetNDC();
     tex->SetTextSize(textSize);
     tex->SetTextFont(42);
