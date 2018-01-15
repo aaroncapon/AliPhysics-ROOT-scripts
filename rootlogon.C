@@ -1,7 +1,6 @@
 //Root logon script
 {
 	std::cout << "New ROOT session." << std::endl;
-
 	std::cout << "ALICE style plotting set." << std::endl;
 
 	gStyle->SetOptTitle(1);
@@ -35,17 +34,15 @@
 
 	gStyle->SetLegendBorderSize(0);
 	gStyle->SetLegendFillColor(kWhite);
-	//  gStyle->SetFillColor(kWhite);
 	gStyle->SetLegendFont(42);
-
 
 	//Automatically create weights object for histograms
 	std::cout << "Sumw2 objects automatically created." << std::endl;
 	TH1::SetDefaultSumw2();
 
 	//Do not add histograms by name to TDirectory
-	//std::cout << "Histograms not added to Tdirectory list" << std::endl;
-	//TH1::AddDirectory(kFALSE);
+	std::cout << "Histograms not added to TDirectory list" << std::endl;
+	TH1::AddDirectory(kFALSE);
 
 	//Useable colours
 	//I.e. darker and can be used in presentations
@@ -85,13 +82,13 @@
 																"265421/", "265422/", "265424/", "265427/", "265435/",
 																"265499/", "265500/", "265501/", "265521/", "265525/"};
 
-//LHC17f2b runs (cent and cent_woSDD missing run 15)
-std::vector<TString> runs17f2b = {"01/", "02/", "03/", "04/", "05/",
-																	"06/", "07/", "08/", "09/", "10/",
-																	"11/", "12/", "13/", "14/", /*"15/"*/};
+	//LHC17f2b runs (cent and cent_woSDD missing run 15)
+	std::vector<TString> runs17f2b = {"01/", "02/", "03/", "04/", "05/",
+																		"06/", "07/", "08/", "09/", "10/",
+																		"11/", "12/", "13/", "14/", /*"15/"*/};
 
 
-    std::cout << std::endl;
+  std::cout << std::endl;
 
 
 }
