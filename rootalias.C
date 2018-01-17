@@ -47,13 +47,13 @@ TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike,
 
 	Int_t minPtBin   = hPos->GetYaxis()->FindBin(minPt);
 	Int_t maxPtBin   = hPos->GetYaxis()->FindBin(maxPt);
-	Int_t minCentBin = hPos->GetZaxis()->FindBin(minCent);
-	Int_t maxCentBin = hPos->GetZaxis()->FindBin(maxCent);
+	Int_t minMultBin = hPos->GetZaxis()->FindBin(minMult);
+	Int_t maxMultBin = hPos->GetZaxis()->FindBin(maxMult);
 
 	//Clone used to make sure binning is identical.
-	TH1F* rFactor     = (TH1F*)(hUnlike->ProjectionX("", minPtBin, maxPtBin, minCentBin, maxCentBin, "e"));
-	TH1F* denominator = (TH1F*)(hNeg->ProjectionX("",    minPtBin, maxPtBin, minCentBin, maxCentBin, "e"));
-	TH1F* tempHist    = (TH1F*)(hPos->ProjectionX("",    minPtBin, maxPtBin, minCentBin, maxCentBin, "e"));
+	TH1F* rFactor     = (TH1F*)(hUnlike->ProjectionX("", minPtBin, maxPtBin, minMultBin, maxMultBin, "e"));
+	TH1F* denominator = (TH1F*)(hNeg->ProjectionX("",    minPtBin, maxPtBin, minMultBin, maxMultBin, "e"));
+	TH1F* tempHist    = (TH1F*)(hPos->ProjectionX("",    minPtBin, maxPtBin, minMultBin, maxMultBin, "e"));
 
 	if(!rFactor){
 		Printf("R factor plot not cloned (in calcDiElecRfactor)");
@@ -269,9 +269,12 @@ TLatex* getTexTitle(Float_t xPos, Float_t yPos, Float_t textSize = 0.04){
 
     return tex;
 }
-TLatex* getTexSystem(Float_t xPos, Float_t yPos, Bool_t isMC = kFALSE, Float_t textSize = 0.03){
+TLatex* getTexSystem(Float_t xPos, Float_t yPos, TString multRange = "", Bool_t isMC = kFALSE, Float_t textSize = 0.03){
 
     TString description = "p-Pb, #sqrt{#it{s}_{NN}} = 5.02 TeV";
+		if(multRange != ""){
+			description += multRange + "%";
+		}
     if(isMC == kTRUE){
        description += ", DPMJET";
     }
@@ -312,7 +315,7 @@ TLatex* getTexPairMom(Float_t xPos, Float_t yPos, Float_t textSize = 0.02, TStri
 }
 TLatex* getTexPairCuts(Float_t xPos, Float_t yPos, Float_t textSize = 0.02){
 
-    TLatex* tex = new TLatex(xPos, yPos, "#varphi_{V}^{pair} < #frac{3}{4}#pi for #it{m}_{ee} < 0.02 GeV/#it{c}^{2}");
+    TLatex* tex = new TLatex(xPos, yPos, "#varphi_{V} < #frac{3}{4}#pi for #it{m}_{ee} < 0.02 GeV/#it{c}^{2}");
     tex->SetNDC();
     tex->SetTextSize(textSize);
     tex->SetTextFont(42);
