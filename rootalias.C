@@ -43,7 +43,7 @@ void formatRatioPlot(TH1* hist, TString yAxis){
     return;
 }
 
-TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike, Bool_t calcRfactor, Float_t minPt = 0, Float_t maxPt = 10, Float_t minCent = 0, Float_t maxCent = 100){
+TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike, Bool_t calcRfactor, Float_t minPt = 0, Float_t maxPt = 10, Float_t minCent = 0, Float_t maxCent = 100, Float_t setRfacOne = 0.3){
 
 	Int_t minPtBin   = hPos->GetYaxis()->FindBin(minPt);
 	Int_t maxPtBin   = hPos->GetYaxis()->FindBin(maxPt);
@@ -63,6 +63,10 @@ TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike,
 		Printf("Pos or Neg projection for Rfac not created (calcDiElecRfactor)");
 		return 0x0;
 	}
+
+	//Get bin number for 200 MeV 
+	//Point at which we take R factor to be 1
+	Int_t finalRealBin = rFactor->GetXaxis()->FindBin(setRfacOne);
 
 	//Dummy R factor
 	if(calcRfactor == kFALSE){
@@ -84,8 +88,13 @@ TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike,
 			errorPos = hPos->GetBinError(i);
 			errorNeg = hNeg->GetBinError(i);
 
-			denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
-			denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
+			if(i < finalRealBin){
+				denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
+				denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
+			}else{
+				denominator->SetBinContent(i, 1);
+				denominator->SetBinError(i, 0.00000001);
+			}
 			if(valuePos == 0 && valueNeg == 0){
 				Printf("A bin was empty in R fac calc. Using 1. Increase statistics!!");
 				denominator->SetBinContent(i, 1);
