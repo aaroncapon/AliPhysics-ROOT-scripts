@@ -43,7 +43,7 @@ void formatRatioPlot(TH1* hist, TString yAxis){
     return;
 }
 
-TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike, Bool_t calcRfactor, Float_t minPt = 0, Float_t maxPt = 10, Float_t minCent = 0, Float_t maxCent = 100, Float_t setRfacOne = 0.3){
+TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike, Bool_t calcRfactor, Float_t minPt = 0, Float_t maxPt = 10, Float_t minMult = 0, Float_t maxMult = 100, Float_t setRfacOne = 0.3){
 
 	Int_t minPtBin   = hPos->GetYaxis()->FindBin(minPt);
 	Int_t maxPtBin   = hPos->GetYaxis()->FindBin(maxPt);
