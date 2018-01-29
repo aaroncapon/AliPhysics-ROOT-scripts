@@ -52,4 +52,18 @@ struct analysisCuts16q{
 
 	const Float_t minPhiVmassPre = 0.02; //Exclude smaller than
 	const Float_t maxPhiVPre = (3/4.)*TMath::Pi(); //Exclude greater than
+
+	//Number reference tracks in mult classes
+	//Cent 
+	const Int_t refTracksTotal_cent = 7059386368;
+	const Int_t refTracks0020_cent = 2815773952;
+	const Int_t refTracks2060_cent = 3081831936;
+	const Int_t refTracks60100_cent = 1161783680;
+
+	//Fast
+	const Int_t refTracksTotal_fast = 7005612032;
+	const Int_t refTracks0020_fast = 2794202112;
+	const Int_t refTracks2060_fast = 3058640128;
+	const Int_t refTracks60100_fast = 1152771840;
+
 };
