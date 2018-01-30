@@ -11,12 +11,12 @@ struct v0cutsFile{
 	//pt refers to transverse momentum of decay particle
 	//Lambda 
 	const Float_t lam_maxPt = 0.10;
-	const Float_t lam_ptLowlim = 0.096;
+	const Float_t lam_minPt = 0.096;
 	const Float_t lam_maxAlpha = 0.75;
 	const Float_t lam_minAlpha = 0.62;
 	//Anti-Lambda 
 	const Float_t antilam_maxPt = 0.10;
-	const Float_t antilam_ptLowlim = 0.096;
+	const Float_t antilam_minPt = 0.096;
 	const Float_t antilam_maxAlpha = -0.62;
 	const Float_t antilam_minAlpha = -0.75;
 
