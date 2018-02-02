@@ -259,6 +259,21 @@ TH1F* calcDiElecSignificance(const TH1F* signal, const TH1F* backgr){
     return significance;
 }
 
+//Use Tefficiency class to calculate correct errors when finding selection
+//efficiencies. Return result to histOrig
+/* void calcTEfficiency(TH1* histEff, TH1* histOrig){ */
+
+/* 	TEfficiency* histEff = new TEfficiency(*histEff, *histOrig); */
+
+/* 	for(Int_t i = 0; i <= histOrig->GetNbinsX(); ++i){ */
+
+/* 		histOrig->SetBinContent(i, histEff->GetEfficiency(i)); */
+/* 		histOrig->SetBinError(i, TMath::Max(histEff->GetEfficiencyErrorLow(i), histEff->GetEfficiencyErrorUp(i))); */
+/* 	} */
+			
+/* 	return; */
+/* } */
+
 //Common TLatex objects
 TLatex* getTexTitle(Float_t xPos, Float_t yPos, Float_t textSize = 0.04){
 
