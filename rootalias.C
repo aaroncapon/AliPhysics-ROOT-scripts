@@ -92,6 +92,8 @@ TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike,
 				denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
 				denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
 			}else{
+				rFactor->SetBinContent(i, 1);
+				rFactor->SetBinError(i, 0.00000001);
 				denominator->SetBinContent(i, 1);
 				denominator->SetBinError(i, 0.00000001);
 			}
@@ -110,7 +112,7 @@ TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike,
 }
 
 //R factor calculation with 1D histograms
-TH1F* calcDiElecRfactor(const TH1F* hPos, const TH1F* hNeg, const TH1F* hUnlike, Bool_t calcRfactor){
+TH1F* calcDiElecRfactor(const TH1F* hPos, const TH1F* hNeg, const TH1F* hUnlike, Bool_t calcRfactor, Float_t setRfacOne = 0.3){
 
 	//Clone used to make sure binning is identical.
 	TH1F* rFactor = (TH1F*)(hUnlike->Clone("rFactor"));
@@ -123,6 +125,8 @@ TH1F* calcDiElecRfactor(const TH1F* hPos, const TH1F* hNeg, const TH1F* hUnlike,
 		Printf("Denominator for Rfac no created (calcDiElecRfactor)");
 		return 0x0;
 	}
+
+	Int_t finalRealBin = rFactor->GetXaxis()->FindBin(setRfacOne);
 
 	//Dummy R factor
 	if(calcRfactor == kFALSE){
@@ -144,11 +148,19 @@ TH1F* calcDiElecRfactor(const TH1F* hPos, const TH1F* hNeg, const TH1F* hUnlike,
 			errorPos = hPos->GetBinError(i);
 			errorNeg = hNeg->GetBinError(i);
 
-			denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
-			denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
-			if(valuePos == 0 && valueNeg == 0){
+			if(i < finalRealBin){
+				denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
+				denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
+			}else{
+				rFactor->SetBinContent(i, 1);
+				rFactor->SetBinError(i, 0.00000001);
 				denominator->SetBinContent(i, 1);
+				denominator->SetBinError(i, 0.00000001);
 			}
+			/* if(valuePos == 0 && valueNeg == 0){ */
+			/* 	Printf("A bin was empty in R fac calc. Using 1. Increase statistics!!"); */
+			/* 	denominator->SetBinContent(i, 1); */
+			/* } */
 		}
 		rFactor->Divide(denominator);
 	}
@@ -288,7 +300,7 @@ TLatex* getTexSystem(Float_t xPos, Float_t yPos, TString multRange = "", Bool_t 
 
     TString description = "p-Pb, #sqrt{#it{s}_{NN}} = 5.02 TeV";
 		if(multRange != ""){
-			description += multRange + "%";
+			description += ", " + multRange + "%";
 		}
     if(isMC == kTRUE){
        description += ", DPMJET";
