@@ -45,11 +45,6 @@ struct analysisCuts16q{
 	const Float_t minPhiVmassCut = 0.02; //Exclude smaller than
 	const Float_t maxPhiV = (3/4.)*TMath::Pi(); //Exclude greater than
 
-	//Float_t minOpAngle = 0.05; //Exclude smaller than
-
-	//Float_t minInvMassPrefilter = 0.05;
-	//Float_t minOpAnglePrefilter = 0.05;
-
 	const Float_t minPhiVmassPre = 0.02; //Exclude smaller than
 	const Float_t maxPhiVPre = (3/4.)*TMath::Pi(); //Exclude greater than
 
@@ -66,4 +61,48 @@ struct analysisCuts16q{
 	const Float_t refTracks2060_fast = 3058640128;
 	const Float_t refTracks60100_fast = 1152771840;
 
+};
+
+//Define loose track cuts (for systematic study)
+struct looseTrackCuts{
+	
+	const Float_t minTPCcrossed = 80;
+	const Float_t minTPCclusters = 60;
+	const Float_t minTPCcrossFindable = 0.6;
+	const Float_t maxTPCcrossFindable = 1.1;
+	const Float_t maxFracTPCshared = 1.0;
+
+	//ITS cuts are implented as less than cuts
+	const Float_t minITShits_cent = 3;
+	const Float_t minITShits_fast = 2;
+
+	const Float_t maxITSchi2 = 10;
+	const Float_t maxfITSshared = 0.01;
+
+	const Float_t maxDCAz = 5;
+	const Float_t maxDCAxy = 2;
+
+	const Bool_t reqSPD = kTRUE;
+};
+
+//Define tight track cuts (for systematic study)
+struct tightTrackCuts{
+	
+	const Float_t minTPCcrossed = 110;
+	const Float_t minTPCclusters = 90;
+	const Float_t minTPCcrossFindable = 0.9;
+	const Float_t maxTPCcrossFindable = 1.1;
+	const Float_t maxFracTPCshared = 0.2;
+
+	//ITS cuts are implented as less than cuts
+	const Float_t minITShits_cent = 5;
+	const Float_t minITShits_fast = 3;
+
+	const Float_t maxITSchi2 = 3.5;
+	const Float_t maxfITSshared = 0.01;
+
+	const Float_t maxDCAz = 2.;
+	const Float_t maxDCAxy = 0.5;
+
+	const Bool_t reqSPD = kTRUE;
 };
