@@ -63,9 +63,32 @@ struct analysisCuts16q{
 
 };
 
+//------Varied track cuts for systematics
+//PID cuts are held constant for these cut sets
 //Define loose track cuts (for systematic study)
-struct looseTrackCuts{
-	
+struct looseCuts16q{
+		
+	//------------PID cuts-------------------//
+	//MVA cuts
+	const Float_t MVAcut_cent = 0.05;
+	const Float_t MVAcut_fast = 0.1;
+
+	//Standard Cuts
+	//Common cuts between data sets
+	const Float_t minEsigITS = -3;
+	const Float_t maxEsigITS = 1;
+	const Float_t minEsigTOF = -3;
+	const Float_t maxEsigTOF = 3;
+	//cent specific PID cuts
+	const Float_t minEsigTPC_cent = -1.5;
+	const Float_t maxEsigTPC_cent = 4;
+	const Float_t minPsigTPC_cent = 3.5;
+	//fast speicific PID cuts
+	const Float_t minEsigTPC_fast = -3;
+	const Float_t maxEsigTPC_fast = 3;
+	const Float_t minPsigTPC_fast = 4;
+
+	//Track cuts
 	const Float_t minTPCcrossed = 80;
 	const Float_t minTPCclusters = 60;
 	const Float_t minTPCcrossFindable = 0.6;
@@ -83,11 +106,39 @@ struct looseTrackCuts{
 	const Float_t maxDCAxy = 2;
 
 	const Bool_t reqSPD = kTRUE;
+
+	//--------- Pair cuts --------------------//
+	const Float_t minPhiVmassCut = 0.02; //Exclude smaller than
+	const Float_t maxPhiV = (3/4.)*TMath::Pi(); //Exclude greater than
+
+	const Float_t minPhiVmassPre = 0.02; //Exclude smaller than
+	const Float_t maxPhiVPre = (3/4.)*TMath::Pi(); //Exclude greater than
 };
 
 //Define tight track cuts (for systematic study)
-struct tightTrackCuts{
-	
+struct tightCuts16q{
+		
+	//------------PID cuts-------------------//
+	//MVA cuts
+	const Float_t MVAcut_cent = 0.05;
+	const Float_t MVAcut_fast = 0.1;
+
+	//Standard Cuts
+	//Common cuts between data sets
+	const Float_t minEsigITS = -3;
+	const Float_t maxEsigITS = 1;
+	const Float_t minEsigTOF = -3;
+	const Float_t maxEsigTOF = 3;
+	//cent specific PID cuts
+	const Float_t minEsigTPC_cent = -1.5;
+	const Float_t maxEsigTPC_cent = 4;
+	const Float_t minPsigTPC_cent = 3.5;
+	//fast speicific PID cuts
+	const Float_t minEsigTPC_fast = -3;
+	const Float_t maxEsigTPC_fast = 3;
+	const Float_t minPsigTPC_fast = 4;
+
+	//Track cuts
 	const Float_t minTPCcrossed = 110;
 	const Float_t minTPCclusters = 90;
 	const Float_t minTPCcrossFindable = 0.9;
@@ -105,4 +156,11 @@ struct tightTrackCuts{
 	const Float_t maxDCAxy = 0.5;
 
 	const Bool_t reqSPD = kTRUE;
+
+	//--------- Pair cuts --------------------//
+	const Float_t minPhiVmassCut = 0.02; //Exclude smaller than
+	const Float_t maxPhiV = (3/4.)*TMath::Pi(); //Exclude greater than
+
+	const Float_t minPhiVmassPre = 0.02; //Exclude smaller than
+	const Float_t maxPhiVPre = (3/4.)*TMath::Pi(); //Exclude greater than
 };
