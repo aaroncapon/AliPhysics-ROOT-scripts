@@ -191,13 +191,36 @@ TH1F* calcDiElecBackgr(const TH1F* hPos, const TH1F* hNeg){
     }
     return backgr;
 }
+//Two dimensional background calculation
+TH2F* calcDiElecBackgr(const TH2F* hPos, const TH2F* hNeg){
 
-TH1F* calcRawDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFactor){
+    //Use geometric mean of like signs to calculate background
+    TH2F* backgr = (TH2F*)hPos->Clone("backgr");
+    backgr->Reset();
 
-	TH1F* rawSpectrum = (TH1F*)unlike->Clone("rawSpectrum");
+    Float_t valuePos, valueNeg;
+    Float_t errorPos, errorNeg;
+    for(Int_t i = 0; i <= hPos->GetNbinsX(); i++){
+			for(Int_t j = 0; j <= hPos->GetNbinsY(); j++){
 
-	TH1F* correctedBackgr = (TH1F*)backgr->Clone("correctedBackgr");
-	correctedBackgr->Multiply(rFactor);
+        valuePos = hPos->GetBinContent(i, j);
+        valueNeg = hNeg->GetBinContent(i, j);
+        errorPos = hPos->GetBinError(i, j);
+        errorNeg = hNeg->GetBinError(i, j);
+        backgr->SetBinContent(i, j, 2*TMath::Sqrt(valuePos*valueNeg));
+        backgr->SetBinError(i, j, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
+			}
+    }
+    return backgr;
+}
+TH1* calcRawDiElecSpectrum(const TH1* unlike, const TH1* backgr, const TH1* rFactor = 0x0){
+
+	TH1* rawSpectrum = (TH1*)unlike->Clone("rawSpectrum");
+
+	TH1* correctedBackgr = (TH1*)backgr->Clone("correctedBackgr");
+	if(rFactor){
+		correctedBackgr->Multiply(rFactor);
+	}
 
 	rawSpectrum->Add(correctedBackgr, -1);
 
