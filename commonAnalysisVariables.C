@@ -42,7 +42,8 @@ struct analysisCuts16q{
 	const Bool_t reqSPD = kTRUE;
 
 	//--------- Pair cuts --------------------//
-	const Float_t minPhiVmassCut = 0.02; //Exclude smaller than
+	const Float_t minPhiVmassCut_cent = 0.025; //Exclude smaller than
+	const Float_t minPhiVmassCut_fast = 0.045; //Exclude smaller than
 	const Float_t maxPhiV = (3/4.)*TMath::Pi(); //Exclude greater than
 
 	const Float_t minPhiVmassPre = 0.02; //Exclude smaller than
