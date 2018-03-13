@@ -363,12 +363,18 @@ TLatex* getTexPairMom(Float_t xPos, Float_t yPos, Float_t textSize = 0.02, TStri
 
 	return tex;
 }
-TLatex* getTexPairCuts(Float_t xPos, Float_t yPos, Float_t textSize = 0.02){
+TLatex* getTexPairCuts(Float_t xPos, Float_t yPos, Bool_t hasITS, Float_t textSize = 0.02){
 
-    TLatex* tex = new TLatex(xPos, yPos, "#varphi_{V} < #frac{3}{4}#pi for #it{m}_{ee} < 0.02 GeV/#it{c}^{2}");
-    tex->SetNDC();
-    tex->SetTextSize(textSize);
-    tex->SetTextFont(42);
+	TString massCut = "";
+	if(hasITS){
+		massCut = "#varphi_{V} < #frac{3}{4}#pi for #it{m}_{ee} < 0.02 GeV/#it{c}^{2}";
+	}else{
+		massCut = "#varphi_{V} < #frac{3}{4}#pi for #it{m}_{ee} < 0.045 GeV/#it{c}^{2}";
+	}
+	TLatex* tex = new TLatex(xPos, yPos, massCut);
+	tex->SetNDC();
+	tex->SetTextSize(textSize);
+	tex->SetTextFont(42);
 
-    return tex;
+	return tex;
 }
