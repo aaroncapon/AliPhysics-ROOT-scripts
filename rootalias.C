@@ -323,7 +323,7 @@ TLatex* getTexSystem(Float_t xPos, Float_t yPos, TString multRange = "", Bool_t 
 
     TString description = "p-Pb, #sqrt{#it{s}_{NN}} = 5.02 TeV";
 		if(multRange != ""){
-			description += ", " + multRange + "%";
+			description += ", " + multRange + " %";
 		}
     if(isMC == kTRUE){
        description += ", DPMJET";
@@ -367,9 +367,9 @@ TLatex* getTexPairCuts(Float_t xPos, Float_t yPos, Bool_t hasITS, Float_t textSi
 
 	TString massCut = "";
 	if(hasITS){
-		massCut = "#varphi_{V} < #frac{3}{4}#pi for #it{m}_{ee} < 0.02 GeV/#it{c}^{2}";
+		massCut = "#varphi_{V} < 2 for #it{m}_{ee} < 0.1 GeV/#it{c}^{2}";
 	}else{
-		massCut = "#varphi_{V} < #frac{3}{4}#pi for #it{m}_{ee} < 0.045 GeV/#it{c}^{2}";
+		massCut = "#varphi_{V} < 2 for #it{m}_{ee} < 0.1 GeV/#it{c}^{2}";
 	}
 	TLatex* tex = new TLatex(xPos, yPos, massCut);
 	tex->SetNDC();
