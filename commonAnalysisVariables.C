@@ -56,6 +56,7 @@ struct analysisCuts16q{
 	const Float_t refTracks2040_cent = 1819967616;
 	const Float_t refTracks4060_cent = 1261865472;
 	const Float_t refTracks6080_cent = 785711488;
+	const Float_t refTracks4080_cent = refTracks4060_cent + refTracks6080_cent;
 	
 	//Fast
 	//Number reference tracks in mult classes
@@ -64,6 +65,7 @@ struct analysisCuts16q{
 	const Float_t refTracks2040_fast = 1806116480;
 	const Float_t refTracks4060_fast = 1252523136;
 	const Float_t refTracks6080_fast = 780171328;
+	const Float_t refTracks4080_fast = refTracks4060_fast + refTracks6080_fast;
 	
 };
 
