@@ -51,28 +51,20 @@ struct analysisCuts16q{
 
 	//Cent 
 	//Number reference tracks in mult classes
-	const Float_t refTracksTotal_cent = 7059386368;
+	const Float_t refTracksTotal_cent = 6683318784;
 	const Float_t refTracks0020_cent = 2815773952;
-	const Float_t refTracks2060_cent = 3081831936;
-	const Float_t refTracks60100_cent = 1161783680;
-	//Average number of tracks
-	const Float_t aveTracksTotal_cent = 27.09;
-	const Float_t aveTracks0020_cent = 54.5;
-	const Float_t aveTracks2060_cent = 29.6;
-	const Float_t aveTracks60100_cent = 10.86;
-
+	const Float_t refTracks2040_cent = 1819967616;
+	const Float_t refTracks4060_cent = 1261865472;
+	const Float_t refTracks6080_cent = 785711488;
+	
 	//Fast
 	//Number reference tracks in mult classes
-	const Float_t refTracksTotal_fast = 7005612032;
+	const Float_t refTracksTotal_fast = 6633006080;
 	const Float_t refTracks0020_fast = 2794202112;
-	const Float_t refTracks2060_fast = 3058640128;
-	const Float_t refTracks60100_fast = 1152771840;
-	//Average number of tracks
-	const Float_t aveTracksTotal_fast = 26.93;
-	const Float_t aveTracks0020_fast = 54.19;
-	const Float_t aveTracks2060_fast = 29.43;
-	const Float_t aveTracks60100_fast = 10.79;
-
+	const Float_t refTracks2040_fast = 1806116480;
+	const Float_t refTracks4060_fast = 1252523136;
+	const Float_t refTracks6080_fast = 780171328;
+	
 };
 
 //------Varied track cuts for systematics
