@@ -27,8 +27,8 @@ struct v0cutsFile{
 	const Float_t k_minAlpha = -0.35;
 
 	//Gamma
-	const Float_t gamma_maxPt = 0.013;
-	const Float_t gamma_maxAlpha = 0.7;
-	const Float_t gamma_minAlpha = -0.75;
+	const Float_t gamma_maxPt = 0.006;
+	const Float_t gamma_maxAlpha = 0.4;
+	const Float_t gamma_minAlpha = -0.4;
 
 };
