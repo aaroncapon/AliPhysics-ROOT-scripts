@@ -69,6 +69,46 @@ struct analysisCuts16q{
 	
 };
 
+struct cutVariations16q{
+	
+	//------------PID cuts-------------------//
+	//MVA cuts
+	const Float_t MVAcut_cent[15]         = {0.05, 0.1, 0.0, -0.1, -0.05,  0.15,  0.0, 0.05, 0.05, -0.1, 0.2, -0.2, 0.0,  0.1, -0.1};
+	const Float_t MVAcut_fast[15]         = {0.10, 0.4, 0.2,  0.0, -0.01, -0.05, 0.05, 0.15, 0.20, -0.2, 0.0,  0.1, 0.2, -0.1,  0.0};
+	const Float_t minTPCcrossed[15]       = { 100,  80, 100,   90,   110,    80,   80,  100,   80,  110,  90,  100,  80,  100,   80};
+	const Float_t minTPCclusters[15]      = {  80,  70,  90,   80,   100,   100,   70,   90,   90,   90, 100,  100,  80,   80,  100};
+	const Float_t minTPCcrossFindable[15] = { 0.8, 0.7, 0.6,  0.8,   0.9,   0.9,  0.6,  0.9,  0.6,  0.8, 0.7,  0.6, 0.8,  0.8,  0.5};
+	const Float_t maxTPCcrossFindable[15] = { 1.1, 1.1, 1.1,  1.1,   1.1,   1.1,  1.1,  1.1,  1.1,  1.1, 1.1,  1.1, 1.1,  1.1,  1.1};
+	const Float_t maxFracTPCshared[15]    = { 0.4, 0.2, 0.6,  0.5,   0.5,   0.3,  0.3,  0.4,  0.5,  0.4, 0.4,  0.6, 0.5,  0.4,  0.4};
+	const Float_t minITShits_cent[15]     = {   4,   5,   6,    5,     4,     4,    4,    5,    5,    4,   6,    6,   4,    5,    4};
+	const Float_t minITShits_fast[15]     = {   3,   4,   4,    3,     3,     4,    4,    4,    3,    3,   4,    3,   3,    3,    3};
+	const Float_t maxITSchi2[15]          = { 4.5, 3.5, 3.5,  3.5,     5,     6,    7,  100,  4.5,  4.5, 3.5,  100, 4.5,    7,  3.5};
+		
+	//Standard Cuts
+	//Common cuts between data sets
+	const Float_t minEsigITS = -3;
+	const Float_t maxEsigITS = 1;
+	const Float_t minEsigTOF = -3;
+	const Float_t maxEsigTOF = 3;
+	//cent specific PID cuts
+	const Float_t minEsigTPC_cent = -1.5;
+	const Float_t maxEsigTPC_cent = 4;
+	const Float_t minPsigTPC_cent = 3.5;
+	//fast speicific PID cuts
+	const Float_t minEsigTPC_fast = -3;
+	const Float_t maxEsigTPC_fast = 3;
+	const Float_t minPsigTPC_fast = 4;
+
+	//Conversion cuts not varied for this study
+	const Float_t maxfITSshared = 0.01;
+	const Bool_t reqSPD = kTRUE;
+
+	//--------- Pair cuts --------------------//
+	const Float_t minPhiVmassCut_cent = 0.100; //Exclude smaller than
+	const Float_t minPhiVmassCut_fast = 0.100; //Exclude smaller than
+	const Float_t maxPhiV = 2; //Exclude greater than
+		
+};
 //------Varied track cuts for systematics
 //PID cuts are held constant for these cut sets
 //Define loose track cuts (for systematic study)
