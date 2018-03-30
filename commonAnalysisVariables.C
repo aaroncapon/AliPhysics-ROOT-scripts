@@ -154,11 +154,11 @@ struct looseCuts16q{
 	const Bool_t reqSPD = kTRUE;
 
 	//--------- Pair cuts --------------------//
-	const Float_t minPhiVmassCut = 0.02; //Exclude smaller than
-	const Float_t maxPhiV = (3/4.)*TMath::Pi(); //Exclude greater than
+	const Float_t minPhiVmassCut = 0.1; //Exclude smaller than
+	const Float_t maxPhiV = 2; //Exclude greater than
 
-	const Float_t minPhiVmassPre = 0.02; //Exclude smaller than
-	const Float_t maxPhiVPre = (3/4.)*TMath::Pi(); //Exclude greater than
+	const Float_t minPhiVmassPre = 0.1; //Exclude smaller than
+	const Float_t maxPhiVPre = 2; //Exclude greater than
 };
 
 //Define tight track cuts (for systematic study)
@@ -204,9 +204,9 @@ struct tightCuts16q{
 	const Bool_t reqSPD = kTRUE;
 
 	//--------- Pair cuts --------------------//
-	const Float_t minPhiVmassCut = 0.02; //Exclude smaller than
-	const Float_t maxPhiV = (3/4.)*TMath::Pi(); //Exclude greater than
+	const Float_t minPhiVmassCut = 0.1; //Exclude smaller than
+	const Float_t maxPhiV = 2; //Exclude greater than
 
-	const Float_t minPhiVmassPre = 0.02; //Exclude smaller than
-	const Float_t maxPhiVPre = (3/4.)*TMath::Pi(); //Exclude greater than
+	const Float_t minPhiVmassPre = 0.1; //Exclude smaller than
+	const Float_t maxPhiVPre = 2; //Exclude greater than
 };

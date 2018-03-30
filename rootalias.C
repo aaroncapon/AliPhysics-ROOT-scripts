@@ -10,7 +10,7 @@ void format1Dhist(TH1* hist, Int_t colour, Int_t markerStyle = 21, Int_t markerS
     hist->SetLineColor(colour);
 }
 //Format colours, and add titles
-void format1Dhist(TH1* hist, Int_t colour, TString xAxis, TString yAxis, Int_t markerStyle = 21, Int_t markerSize = 1){
+void format1Dhist(TH1* hist, Int_t colour, TString xAxis, TString yAxis = "", Int_t markerStyle = 21, Int_t markerSize = 1){
     hist->SetMarkerStyle(markerStyle);
     hist->SetMarkerColor(colour);
     hist->SetMarkerSize(markerSize);
@@ -64,8 +64,7 @@ TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike,
 		return 0x0;
 	}
 
-	//Get bin number for 200 MeV 
-	//Point at which we take R factor to be 1
+	//Get bin number for point at which we take R factor to be 1
 	Int_t finalRealBin = rFactor->GetXaxis()->FindBin(setRfacOne);
 
 	//Dummy R factor
@@ -170,7 +169,6 @@ TH1F* calcDiElecRfactor(const TH1F* hPos, const TH1F* hNeg, const TH1F* hUnlike,
   return rFactor;
 }
 
-
 //Calculate geomtric mean of like sign spectra for background calculation
 TH1F* calcDiElecBackgr(const TH1F* hPos, const TH1F* hNeg){
 
@@ -191,6 +189,7 @@ TH1F* calcDiElecBackgr(const TH1F* hPos, const TH1F* hNeg){
     }
     return backgr;
 }
+
 //Two dimensional background calculation
 TH2F* calcDiElecBackgr(const TH2F* hPos, const TH2F* hNeg){
 
