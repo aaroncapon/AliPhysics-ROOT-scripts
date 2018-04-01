@@ -69,6 +69,15 @@ struct analysisCuts16q{
 	
 };
 
+//Store variables for PID cut variation tests
+//First loose, second analysis cut, third toight
+struct variedPIDcuts16q{
+
+		const Float_t MVAcut_cent[3] = {-0.10, 0.05, 0.20};
+	const Float_t MVAcut_fast[3] = {-0.01, 0.10, 0.25};
+
+};
+
 struct cutVariations16q{
 	
 	//------------PID cuts-------------------//
