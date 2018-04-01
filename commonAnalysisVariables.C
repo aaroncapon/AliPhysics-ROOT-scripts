@@ -42,12 +42,8 @@ struct analysisCuts16q{
 	const Bool_t reqSPD = kTRUE;
 
 	//--------- Pair cuts --------------------//
-	const Float_t minPhiVmassCut_cent = 0.100; //Exclude smaller than
-	const Float_t minPhiVmassCut_fast = 0.100; //Exclude smaller than
+	const Float_t minPhiVmassCut = 0.100; //Exclude smaller than
 	const Float_t maxPhiV = 2; //Exclude greater than
-
-	const Float_t minPhiVmassPre = 0.02; //Exclude smaller than
-	const Float_t maxPhiVPre = (3/4.)*TMath::Pi(); //Exclude greater than
 
 	//Cent 
 	//Number reference tracks in mult classes
@@ -73,7 +69,7 @@ struct analysisCuts16q{
 //First loose, second analysis cut, third toight
 struct variedPIDcuts16q{
 
-		const Float_t MVAcut_cent[3] = {-0.10, 0.05, 0.20};
+	const Float_t MVAcut_cent[3] = {-0.10, 0.05, 0.20};
 	const Float_t MVAcut_fast[3] = {-0.01, 0.10, 0.25};
 
 };
@@ -113,8 +109,7 @@ struct cutVariations16q{
 	const Bool_t reqSPD = kTRUE;
 
 	//--------- Pair cuts --------------------//
-	const Float_t minPhiVmassCut_cent = 0.100; //Exclude smaller than
-	const Float_t minPhiVmassCut_fast = 0.100; //Exclude smaller than
+	const Float_t minPhiVmassCut = 0.100; //Exclude smaller than
 	const Float_t maxPhiV = 2; //Exclude greater than
 		
 };
@@ -166,8 +161,6 @@ struct looseCuts16q{
 	const Float_t minPhiVmassCut = 0.1; //Exclude smaller than
 	const Float_t maxPhiV = 2; //Exclude greater than
 
-	const Float_t minPhiVmassPre = 0.1; //Exclude smaller than
-	const Float_t maxPhiVPre = 2; //Exclude greater than
 };
 
 //Define tight track cuts (for systematic study)
@@ -216,6 +209,4 @@ struct tightCuts16q{
 	const Float_t minPhiVmassCut = 0.1; //Exclude smaller than
 	const Float_t maxPhiV = 2; //Exclude greater than
 
-	const Float_t minPhiVmassPre = 0.1; //Exclude smaller than
-	const Float_t maxPhiVPre = 2; //Exclude greater than
 };
