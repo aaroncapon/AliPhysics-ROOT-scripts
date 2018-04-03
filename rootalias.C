@@ -8,6 +8,7 @@ void format1Dhist(TH1* hist, Int_t colour, Int_t markerStyle = 21, Int_t markerS
     hist->SetMarkerColor(colour);
     hist->SetMarkerSize(markerSize);
     hist->SetLineColor(colour);
+		hist->SetLineWidth(2);
 }
 //Format colours, and add titles
 void format1Dhist(TH1* hist, Int_t colour, TString xAxis, TString yAxis = "", Int_t markerStyle = 21, Int_t markerSize = 1){
@@ -15,6 +16,7 @@ void format1Dhist(TH1* hist, Int_t colour, TString xAxis, TString yAxis = "", In
     hist->SetMarkerColor(colour);
     hist->SetMarkerSize(markerSize);
     hist->SetLineColor(colour);
+		hist->SetLineWidth(2);
     hist->GetYaxis()->SetTitle(yAxis);
     hist->GetXaxis()->SetTitle(xAxis);
 }
