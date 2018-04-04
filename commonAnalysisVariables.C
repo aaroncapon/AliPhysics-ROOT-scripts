@@ -45,23 +45,9 @@ struct analysisCuts16q{
 	const Float_t minPhiVmassCut = 0.100; //Exclude smaller than
 	const Float_t maxPhiV = 2; //Exclude greater than
 
-	//Cent 
-	//Number reference tracks in mult classes
-	const Float_t refTracksTotal_cent = 6683318784;
-	const Float_t refTracks0020_cent = 2815773952;
-	const Float_t refTracks2040_cent = 1819967616;
-	const Float_t refTracks4060_cent = 1261865472;
-	const Float_t refTracks6080_cent = 785711488;
-	const Float_t refTracks4080_cent = refTracks4060_cent + refTracks6080_cent;
-	
-	//Fast
-	//Number reference tracks in mult classes
-	const Float_t refTracksTotal_fast = 6633006080;
-	const Float_t refTracks0020_fast = 2794202112;
-	const Float_t refTracks2040_fast = 1806116480;
-	const Float_t refTracks4060_fast = 1252523136;
-	const Float_t refTracks6080_fast = 780171328;
-	const Float_t refTracks4080_fast = refTracks4060_fast + refTracks6080_fast;
+	const Int_t numEventsCent = 325290830;
+	//Do not trust the fast number
+	const Int_t numEventsFast = 415552587;
 	
 };
 
