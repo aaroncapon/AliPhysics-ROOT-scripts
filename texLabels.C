@@ -57,8 +57,7 @@ TLatex* getTexPairMom(Float_t xPos, Float_t yPos, Float_t textSize = 0.02, TStri
 }
 TLatex* getTexPairCuts(Float_t xPos, Float_t yPos, Float_t textSize = 0.02){
 
-	massCut = "#varphi_{V} < 2 for #it{m}_{ee} < 0.1 GeV/#it{c}^{2}";
-	TLatex* tex = new TLatex(xPos, yPos, massCut);
+	TLatex* tex = new TLatex(xPos, yPos, "#varphi_{V} < 2 for #it{m}_{ee} < 0.1 GeV/#it{c}^{2}");
 	tex->SetNDC();
 	tex->SetTextSize(textSize);
 	tex->SetTextFont(42);
