@@ -22,11 +22,16 @@ void format1Dhist(TH1* hist, Int_t colour, TString xAxis, TString yAxis = "", In
 
 
 //Function to format lower plot when taking ratios
-void formatRatioPlot(TH1* hist, TString yAxis){
+void formatRatioPlot(TH1* hist, TString yAxis = "", Int_t colour = kWhite){
 
     hist->SetTitle("");
-
-    hist->GetYaxis()->SetTitle(yAxis);
+		if(colour != kWhite){
+			hist->SetMarkerColor(colour);
+			hist->SetLineColor(colour);
+		}
+		if(yAxis != ""){
+			hist->GetYaxis()->SetTitle(yAxis);
+		}
     hist->GetYaxis()->CenterTitle();
     hist->GetYaxis()->SetNdivisions(505);
     hist->GetYaxis()->SetTitleSize(20);
