@@ -204,6 +204,23 @@ TH1F* calcDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFa
 	return rawSpectrum;
 }
 
+TH1F* calcDiElecSB(const TH1* signal, const TH1* backgr){
+
+	if(!signal){
+		Printf("Signal hist missing for SB calculation");
+		return;
+	}
+	if(!backgr){
+		Printf("Background hist missing for SB calculation");
+		return;
+	}
+
+	TH1F* histSB = (TH1F*)signal->Clone("histSB");
+	histSB->Divide(backgr);
+
+	return histSB;
+}
+
 //Calculate significance, as per dielectron analysis definiton
 TH1F* calcDiElecSignificance(const TH1F* signal, const TH1F* backgr){
 
