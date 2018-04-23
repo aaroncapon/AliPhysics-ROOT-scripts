@@ -58,3 +58,41 @@ Bool_t isV0accepted(Float_t pointing, Float_t rLength, Float_t impactXY, Float_t
 
 	return answer;
 }
+
+Bool_t isLambdaDecay(Float_t ptArm, Float_t alpha){
+
+	Bool_t answer = kTRUE;
+	if(alpha < lam_maxAlpha && alpha > lam_minAlpha && ptArm > lam_minPt && ptArm < lam_maxPt){ //Lambda decay
+		return answer; 
+	} 
+	
+	else{ 
+		answer = kFALSE;
+		return answer; 
+	}
+	return answer;
+}
+Bool_t isAntiLambdaDecay(Float_t ptArm, Float_t alpha){
+
+	Bool_t answer = kTRUE;
+	if(alpha > antilam_minAlpha && alpha < antilam_maxAlpha && ptArm > antilam_minPt && ptArm < antilam_maxPt){  //Lambda decay
+		return answer; 
+	}
+	else{ 
+		answer = kFALSE;
+		return answer; 
+	}
+	return answer;
+}
+//Decays into pi_pi-
+Bool_t isKshortDecay(Float_t ptArm, Float_t alpha){
+
+	Bool_t answer = kTRUE;
+	if(alpha < -k_minPt || alpha > k_maxAlpha || ptArm > k_maxPt || ptArm < k_minPt){
+		answer = kFALSE;
+		return answer;
+	}
+	return answer;
+}
+
+
