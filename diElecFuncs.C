@@ -1,5 +1,89 @@
-//Stores functions to calculate dielectron signal and background distributions
+//A collection of commonly calculated distributions used for the calculation of
+//the dielectron invariant mass spectrum. 
+//
+//1D inputs must be as a function of mass. 
+//2D inputs can contain any desired axes.
+//3D inputs must be functions of mass, pairPt and multiplicity.
+//
+//Functions:
+//R factor calculations (Acceptance correction factor)
+//	- Inputs 1D, output 1D
+//	-	Inputs 3D, output 1D
+//Combinatorial background (geometric mean)
+//	- Inputs 1D, output 1D
+//	- Inputs 2D, output 2D
+//Spectrum calculations
+//	- Inputs 1D (UL and comb.), output 1D 
+//	- Inputs 3D (UL and comb.), output 3D
+//Signal to background ratio
+//	- Inputs 1D, output 1D
+//Statistical significance
+//	-Inputs 1D, output 1D
+//
 
+//TODO: 1D and 3D input options for all the above functions
+
+
+//------------------------- R factor functions ---------------------------//
+//1D inputs
+TH1F* calcDiElecRfactor(const TH1F* hPos, const TH1F* hNeg, const TH1F* hUnlike, Bool_t calcRfactor, Float_t setRfacOne = 0.3){
+
+	//Clone used to make sure binning is identical.
+	TH1F* rFactor = (TH1F*)(hUnlike->Clone("rFactor"));
+	TH1F* denominator = (TH1F*)(hNeg->Clone("denominator"));
+	if(!rFactor){
+		Printf("R factor plot not cloned (in calcDiElecRfactor)");
+		return 0x0;
+	}
+	if(!denominator){
+		Printf("Denominator for Rfac no created (calcDiElecRfactor)");
+		return 0x0;
+	}
+
+	Int_t finalRealBin = rFactor->GetXaxis()->FindBin(setRfacOne);
+
+	//Dummy R factor
+	if(calcRfactor == kFALSE){
+		rFactor->Reset(); //clear contents.
+		for(Int_t i = 1; i <= rFactor->GetNbinsX(); i++){
+			rFactor->SetBinContent(i, 1);
+			rFactor->SetBinError(i, 0.001);
+		}
+	}
+	//Real R factor
+	else{
+		Float_t valuePos, valueNeg;
+		Float_t errorPos, errorNeg;
+		for(Int_t i = 0; i <= hPos->GetNbinsX(); i++){
+
+			valuePos = hPos->GetBinContent(i);
+			valueNeg = hNeg->GetBinContent(i);
+
+			errorPos = hPos->GetBinError(i);
+			errorNeg = hNeg->GetBinError(i);
+
+			if(i < finalRealBin){
+				denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
+				denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
+			}else{
+				rFactor->SetBinContent(i, 1);
+				rFactor->SetBinError(i, 0.00000001);
+				denominator->SetBinContent(i, 1);
+				denominator->SetBinError(i, 0.00000001);
+			}
+			/* if(valuePos == 0 && valueNeg == 0){ */
+			/* 	Printf("A bin was empty in R fac calc. Using 1. Increase statistics!!"); */
+			/* 	denominator->SetBinContent(i, 1); */
+			/* } */
+		}
+		rFactor->Divide(denominator);
+	}
+
+	delete denominator;
+
+  return rFactor;
+}
+//3D inputs
 TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike, Bool_t calcRfactor, Float_t minPt = 0, Float_t maxPt = 10, Float_t minMult = 0, Float_t maxMult = 100, Float_t setRfacOne = 0.3){
 
 	Int_t minPtBin   = hPos->GetYaxis()->FindBin(minPt);
@@ -67,65 +151,8 @@ TH1F* calcDiElecRfactor(const TH3F* hPos, const TH3F* hNeg, const TH3F* hUnlike,
   return rFactor;
 }
 
-//R factor calculation with 1D histograms
-TH1F* calcDiElecRfactor(const TH1F* hPos, const TH1F* hNeg, const TH1F* hUnlike, Bool_t calcRfactor, Float_t setRfacOne = 0.3){
 
-	//Clone used to make sure binning is identical.
-	TH1F* rFactor = (TH1F*)(hUnlike->Clone("rFactor"));
-	TH1F* denominator = (TH1F*)(hNeg->Clone("denominator"));
-	if(!rFactor){
-		Printf("R factor plot not cloned (in calcDiElecRfactor)");
-		return 0x0;
-	}
-	if(!denominator){
-		Printf("Denominator for Rfac no created (calcDiElecRfactor)");
-		return 0x0;
-	}
-
-	Int_t finalRealBin = rFactor->GetXaxis()->FindBin(setRfacOne);
-
-	//Dummy R factor
-	if(calcRfactor == kFALSE){
-		rFactor->Reset(); //clear contents.
-		for(Int_t i = 1; i <= rFactor->GetNbinsX(); i++){
-			rFactor->SetBinContent(i, 1);
-			rFactor->SetBinError(i, 0.001);
-		}
-	}
-	//Real R factor
-	else{
-		Float_t valuePos, valueNeg;
-		Float_t errorPos, errorNeg;
-		for(Int_t i = 0; i <= hPos->GetNbinsX(); i++){
-
-			valuePos = hPos->GetBinContent(i);
-			valueNeg = hNeg->GetBinContent(i);
-
-			errorPos = hPos->GetBinError(i);
-			errorNeg = hNeg->GetBinError(i);
-
-			if(i < finalRealBin){
-				denominator->SetBinContent(i, 2*TMath::Sqrt(valuePos*valueNeg));
-				denominator->SetBinError(i, TMath::Sqrt(errorPos) + TMath::Sqrt(errorNeg));
-			}else{
-				rFactor->SetBinContent(i, 1);
-				rFactor->SetBinError(i, 0.00000001);
-				denominator->SetBinContent(i, 1);
-				denominator->SetBinError(i, 0.00000001);
-			}
-			/* if(valuePos == 0 && valueNeg == 0){ */
-			/* 	Printf("A bin was empty in R fac calc. Using 1. Increase statistics!!"); */
-			/* 	denominator->SetBinContent(i, 1); */
-			/* } */
-		}
-		rFactor->Divide(denominator);
-	}
-
-	delete denominator;
-
-  return rFactor;
-}
-
+//-------------------- Combinatorial background ----------------------//
 //Calculate geomtric mean of like sign spectra for background calculation
 TH1F* calcDiElecBackgr(const TH1F* hPos, const TH1F* hNeg){
 
@@ -169,30 +196,64 @@ TH2F* calcDiElecBackgr(const TH2F* hPos, const TH2F* hNeg){
     }
     return backgr;
 }
-TH1* calcRawDiElecSpectrum(const TH1* unlike, const TH1* backgr, const TH1* rFactor = 0x0){
 
-	TH1* rawSpectrum = (TH1*)unlike->Clone("rawSpectrum");
+//-------------------- Spectrum Calculations -------------------------//
+//1D inputs and ouputs
+TH1F* calcDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFactor = 0x0, TH1F* effCor = 0x0){
 
-	TH1* correctedBackgr = (TH1*)backgr->Clone("correctedBackgr");
-	if(rFactor){
-		correctedBackgr->Multiply(rFactor);
+	if(!unlike){
+		std::cout << "Unlike hist. not passed for spectrum calculation." << std::endl;
+		return 0x0;
 	}
-
-	rawSpectrum->Add(correctedBackgr, -1);
-
-	return rawSpectrum;
-}
-
-TH1F* calcDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFactor, TH1F* effCor = 0x0){
+	if(!backgr){
+		std::cout << "Background hist. not passed for spectrum calculation." << std::endl;
+		return 0x0;
+	}
 
 	Double_t intLuminosity = 1;
 
-	//TODO: use vert. reconstruction and trigger efficiency
+	//TODO: apply vert. reconstruction and trigger efficiency
 
 	TH1F* rawSpectrum = (TH1F*)unlike->Clone("rawSpectrum");
 
 	TH1F* correctedBackgr = (TH1F*)backgr->Clone("correctedBackgr");
-	correctedBackgr->Multiply(rFactor);
+	if(rFactor){
+		std::cout << "Applying R factor" << std::endl;
+		correctedBackgr->Multiply(rFactor);
+	}else{
+		std::cout << "No R factor applied" << std::endl;
+	}
+
+	rawSpectrum->Add(correctedBackgr, -1);
+
+	if(effCor){
+		Printf("Using efficiency correction!");
+		rawSpectrum->Divide(effCor);
+	}
+
+	return rawSpectrum;
+}
+//3D input and output
+TH3F* calcDiElecSpectrum(const TH3F* unlike, const TH3F* backgr, const TH3F* rFactor = 0x0, TH3F* effCor = 0x0){
+
+	if(!unlike){
+		std::cout << "Unlike hist. not passed for spectrum calculation." << std::endl;
+		return 0x0;
+	}
+	if(!backgr){
+		std::cout << "Background hist. not passed for spectrum calculation." << std::endl;
+		return 0x0;
+	}
+
+	TH3F* rawSpectrum = (TH3F*)unlike->Clone("rawSpectrum");
+
+	TH3F* correctedBackgr = (TH3F*)backgr->Clone("correctedBackgr");
+	if(rFactor){
+		std::cout << "Applying R factor" << std::endl;
+		correctedBackgr->Multiply(rFactor);
+	}else{
+		std::cout << "No R factor applied" << std::endl;
+	}
 
 	rawSpectrum->Add(correctedBackgr, -1);
 
@@ -204,6 +265,27 @@ TH1F* calcDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFa
 	return rawSpectrum;
 }
 
+
+
+//-------------------- Signal-to-Background ratio -------------------//
+TH1F* calcDiElecSB(const TH1* signal, const TH1* backgr){
+
+	if(!signal){
+		Printf("Signal hist missing for SB calculation");
+		return 0x0;
+	}
+	if(!backgr){
+		Printf("Background hist missing for SB calculation");
+		return 0x0;
+	}
+
+	TH1F* histSB = (TH1F*)signal->Clone("histSB");
+	histSB->Divide(backgr);
+
+	return histSB;
+}
+
+//-------------------- Statistical significance ---------------------//
 //Calculate significance, as per dielectron analysis definiton
 TH1F* calcDiElecSignificance(const TH1F* signal, const TH1F* backgr){
 
@@ -249,19 +331,4 @@ TH1F* calcDiElecSignificance(const TH1F* signal, const TH1F* backgr){
 
     return significance;
 }
-
-//Use Tefficiency class to calculate correct errors when finding selection
-//efficiencies. Return result to histOrig
-/* void calcTEfficiency(TH1* histEff, TH1* histOrig){ */
-
-/* 	TEfficiency* histEff = new TEfficiency(*histEff, *histOrig); */
-
-/* 	for(Int_t i = 0; i <= histOrig->GetNbinsX(); ++i){ */
-
-/* 		histOrig->SetBinContent(i, histEff->GetEfficiency(i)); */
-/* 		histOrig->SetBinError(i, TMath::Max(histEff->GetEfficiencyErrorLow(i), histEff->GetEfficiencyErrorUp(i))); */
-/* 	} */
-			
-/* 	return; */
-/* } */
 
