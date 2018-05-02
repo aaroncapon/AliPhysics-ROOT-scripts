@@ -28,7 +28,7 @@ TLatex* getTexSystem(Float_t xPos, Float_t yPos, TString multRange = "", Bool_t 
 
 	return tex;
 }
-TLatex* getTexKinematics(Float_t xPos, Float_t yPos, Float_t textSize = 0.02){
+TLatex* getTexKinematics(Float_t xPos, Float_t yPos, Float_t textSize = 0.03){
 
 	TLatex* tex = new TLatex(xPos, yPos, "0.2 < #it{p}_{T} < 10 GeV/#it{c}, |#eta| < 0.8");
 	tex->SetNDC();
