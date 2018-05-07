@@ -11,7 +11,7 @@ TLatex* getTexTitle(Float_t xPos, Float_t yPos, TString title = "", Float_t text
 }
 TLatex* getTexSystem(Float_t xPos, Float_t yPos, TString multRange = "", Bool_t isMC = kFALSE, Float_t textSize = 0.03){
 
-	TString description = "p-Pb, #sqrt{#it{s}_{NN}} = 5.02 TeV";
+	TString description = "p-Pb #sqrt{#it{s}_{NN}} = 5.02 TeV";
 	if(multRange != "" && multRange != "MB"){
 		description += ", " + multRange + " %";
 	}
@@ -30,7 +30,7 @@ TLatex* getTexSystem(Float_t xPos, Float_t yPos, TString multRange = "", Bool_t 
 }
 TLatex* getTexKinematics(Float_t xPos, Float_t yPos, Float_t textSize = 0.03){
 
-	TLatex* tex = new TLatex(xPos, yPos, "0.2 < #it{p}_{T} < 10 GeV/#it{c}, |#eta| < 0.8");
+	TLatex* tex = new TLatex(xPos, yPos, "0.2 < #it{p}_{T} < 10 GeV/#it{c}, |#it{#eta}| < 0.8");
 	tex->SetNDC();
 	tex->SetTextSize(textSize);
 	tex->SetTextFont(42);
