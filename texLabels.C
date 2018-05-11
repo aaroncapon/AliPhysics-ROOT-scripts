@@ -28,9 +28,9 @@ TLatex* getTexSystem(Float_t xPos, Float_t yPos, TString multRange = "", Bool_t 
 
 	return tex;
 }
-TLatex* getTexKinematics(Float_t xPos, Float_t yPos, Float_t textSize = 0.03){
+TLatex* getTexKinematics(Float_t xPos, Float_t yPos, TString maxPt = "10", Float_t textSize = 0.03){
 
-	TLatex* tex = new TLatex(xPos, yPos, "0.2 < #it{p}_{T} < 10 GeV/#it{c}, |#it{#eta}| < 0.8");
+	TLatex* tex = new TLatex(xPos, yPos, "0.2 < #it{p}_{T} < " + maxPt + " GeV/#it{c}, |#it{#eta}| < 0.8");
 	tex->SetNDC();
 	tex->SetTextSize(textSize);
 	tex->SetTextFont(42);
