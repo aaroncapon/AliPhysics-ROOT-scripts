@@ -221,7 +221,7 @@ TH1F* calcDiElecSpectrum(const TH1F* unlike, const TH1F* backgr, const TH1F* rFa
 		std::cout << "Applying R factor" << std::endl;
 		correctedBackgr->Multiply(rFactor);
 	}else{
-		std::cout << "No R factor applied" << std::endl;
+		//std::cout << "No R factor applied" << std::endl;
 	}
 
 	rawSpectrum->Add(correctedBackgr, -1);
@@ -252,7 +252,7 @@ TH3F* calcDiElecSpectrum(const TH3F* unlike, const TH3F* backgr, const TH3F* rFa
 		std::cout << "Applying R factor" << std::endl;
 		correctedBackgr->Multiply(rFactor);
 	}else{
-		std::cout << "No R factor applied" << std::endl;
+		//std::cout << "No R factor applied" << std::endl;
 	}
 
 	rawSpectrum->Add(correctedBackgr, -1);
@@ -327,8 +327,6 @@ TH1F* calcDiElecSignificance(const TH1F* signal, const TH1F* backgr){
             //std::cout << "Sig: "       << valueSignal << ", backgr: " << valueBackgr << std::endl;
             //std::cout << "Bin width: " << binWidth << ", Bin " << i << " value: " << preScaling/TMath::Sqrt(binWidth) << std::endl;
     }
-
-
     return significance;
 }
 
