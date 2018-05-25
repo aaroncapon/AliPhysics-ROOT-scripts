@@ -2,7 +2,7 @@
 
 //Format 1D histograms
 //Just format colours
-void format1Dhist(TH1* hist, Int_t colour, Int_t markerStyle = 21, Int_t markerSize = 1){
+void format1Dhist(TH1* hist, Int_t colour, Int_t markerStyle = 21, Size_t markerSize = 1){
     hist->SetMarkerStyle(markerStyle);
     hist->SetMarkerColor(colour);
     hist->SetMarkerSize(markerSize);
@@ -10,7 +10,7 @@ void format1Dhist(TH1* hist, Int_t colour, Int_t markerStyle = 21, Int_t markerS
 		hist->SetLineWidth(2);
 }
 //Format colours, and add titles
-void format1Dhist(TH1* hist, Int_t colour, TString xAxis, TString yAxis = "", Int_t markerStyle = 21, Int_t markerSize = 1){
+void format1Dhist(TH1* hist, Int_t colour, TString xAxis, TString yAxis = "", Int_t markerStyle = 21, Size_t markerSize = 1){
     hist->SetMarkerStyle(markerStyle);
     hist->SetMarkerColor(colour);
     hist->SetMarkerSize(markerSize);
