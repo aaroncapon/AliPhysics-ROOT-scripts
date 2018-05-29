@@ -11,7 +11,7 @@ TLatex* getTexTitle(Float_t xPos, Float_t yPos, TString title = "", Float_t text
 }
 TLatex* getTexSystem(Float_t xPos, Float_t yPos, TString multRange = "", Bool_t isMC = kFALSE, Float_t textSize = 0.03){
 
-	TString description = "p-Pb #sqrt{#it{s}_{NN}} = 5.02 TeV";
+	TString description = "p-Pb #sqrt{s_{#it{NN}}} = 5.02 TeV";
 	if(multRange != "" && multRange != "MB"){
 		description += ", " + multRange + " %";
 	}
@@ -37,7 +37,7 @@ TLatex* getTexKinematics(Float_t xPos, Float_t yPos, TString maxPt = "10", Float
 
 	return tex;
 }
-TLatex* getTexPairMom(Float_t xPos, Float_t yPos, Float_t textSize = 0.02, TString maxPt = "10", TString minPt = "0"){
+TLatex* getTexPairMom(Float_t xPos, Float_t yPos, Float_t textSize = 0.02, TString minPt = "0", TString maxPt = "10"){
 
 	TString mid = "#it{p}_{T}^{pair} < ";
 	TString units = " GeV/#it{c}";
@@ -47,7 +47,7 @@ TLatex* getTexPairMom(Float_t xPos, Float_t yPos, Float_t textSize = 0.02, TStri
 		tex = new TLatex(xPos, yPos, pairPtDescription);
 	}
 	else{
-		TString pairPtDescription = minPt + " " + mid + maxPt + units;
+		TString pairPtDescription = minPt + " < " + mid + maxPt + units;
 		tex = new TLatex(xPos, yPos, pairPtDescription);
 	}
 	tex->SetNDC();
